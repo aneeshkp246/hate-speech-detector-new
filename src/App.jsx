@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Category from "./components/Category";
 import XLink from "./components/xLink"; 
+import TweetCheckerInput from "./components/xContent"; 
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Category />} />
         <Route path="/xLink" element={<XLink />} />
+        <Route path="/xContent" element={<TweetCheckerInput />} />
       </Routes>
       <Footer />
     </Router>

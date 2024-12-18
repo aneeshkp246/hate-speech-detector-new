@@ -1,0 +1,55 @@
+/* Center the container and give background */
+.tweet-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+  }
+  
+  /* Card-like box */
+  .tweet-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  /* Input field */
+  .tweet-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .tweet-input:focus {
+    border-color: #1da1f2;
+  }
+  
+  /* Button */
+  .tweet-button {
+    background-color: #1da1f2;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tweet-button:hover {
+    background-color: #0d8ae7;
+  }
+  

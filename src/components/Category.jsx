@@ -12,12 +12,14 @@ const Category = () => {
         </div>
         </a>
         
-        {/* <div className="or">
+        <div className="or">
           <h2>OR</h2>
-        </div> */}
-        {/* <div className="audio box">
-          <h2>Upload an Audio Sample</h2>
-        </div> */}
+        </div>
+        <a href="xContent">
+        <div className="x-link box">
+          <h2>Copy Paste the Tweet Content</h2>
+        </div>
+        </a>
       </div>
     </div>
   );
