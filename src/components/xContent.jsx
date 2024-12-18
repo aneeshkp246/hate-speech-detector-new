@@ -1,15 +1,15 @@
-import React from 'react';
-import './styles/TweetChecker.css';
+import React from "react";
+import "./styles/TweetChecker.css";
 
 function TweetCheckerInput() {
   return (
     <div className="tweet-container">
       <div className="tweet-card">
-        <input
-          type="text"
+        <textarea
           placeholder="Enter the X (Twitter) Content here"
-          className="tweet-input"
-        />
+          className="tweet-textarea"
+          rows="5" // Number of visible lines
+        ></textarea>
         <button className="tweet-button">Check the Tweet!</button>
       </div>
     </div>
