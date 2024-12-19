@@ -15,7 +15,8 @@ function App() {
         <Route path="/xLink" element={<XLink />} />
         <Route path="/xContent" element={<TweetCheckerInput />} />
       </Routes>
-      <Footer />
+      <br /> <br />
+      {/* <Footer /> */}
     </Router>
   );
 }
