@@ -7,11 +7,19 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 import re
+import os
 import logging
+from dotenv import load_dotenv
+from pathlib import Path
 import google.generativeai as genai
 
-# Configure the API key for Google Gemini
-genai.configure(api_key="AIzaSyCY_1UuBvvldRCyP9CsSULcspL3XjNWJU8")
+# Load environment variables
+current_dir = Path(__file__).resolve().parent
+env_path = current_dir.parent / '.env'
+load_dotenv()
+
+# Configure the API key for Google Gemini securely
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 # Specify the model
 model = genai.GenerativeModel("gemini-1.5-flash")
@@ -99,7 +107,7 @@ def classify_text(input_text):
 
 # Function to rephrase the tweet
 def rephrase_tweet(text):
-    prompt = f"Rewrite the following tweet to be more positive:\n\n{text}"
+    prompt = f"Rewrite the following tweet to be more positive and non-offensive:\n\n{text}"
     response = model.generate_content(prompt)
     return response.text.strip()
 

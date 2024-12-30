@@ -1,5 +1,7 @@
 const express = require('express');
 const needle = require('needle');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const cors = require('cors');
 const axios = require('axios');
 
@@ -7,7 +9,8 @@ const app = express();
 const PORT = 5000;
 const ML_SERVICE_URL = 'http://127.0.0.1:5001/analyze';
 
-const BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAOOKxgEAAAAAUDyhtB%2Fc1%2F9qkrBmAFcYdSm13gI%3Dobbp5E26qyznKj1g8PWPMRda6uPgY0UI6seJx4OeWepF00wmUO';
+const BEARER_TOKEN = process.env.BEARER_TOKEN;
+
 
 if (!BEARER_TOKEN) {
     console.error('Error: Twitter Bearer Token is not set in the environment variables.');
