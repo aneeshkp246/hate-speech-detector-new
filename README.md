@@ -64,3 +64,7 @@ npm start
 - Frontend: React app runs on http://localhost:3000
 - Backend: Express server runs on http://localhost:5000
 - ML Service: Flask server runs on http://localhost:5001
+
+# License
+
+MIT © aneeshkp246
