@@ -43,9 +43,10 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 python model.py
 ```
-### Or
+### Or (without configuring a virtual environment)
 
 ```bash
+cd ml-service
 pip install -r requirements.txt
 ```
 
