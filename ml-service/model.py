@@ -8,6 +8,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 import re
 import logging
+import google.generativeai as genai
+
+# Configure the API key for Google Gemini
+genai.configure(api_key="AIzaSyCY_1UuBvvldRCyP9CsSULcspL3XjNWJU8")
+
+# Specify the model
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Configure Flask app
 app = Flask(__name__)
@@ -90,6 +97,12 @@ def classify_text(input_text):
             "error": f"Classification failed: {str(e)}"
         }
 
+# Function to rephrase the tweet
+def rephrase_tweet(text):
+    prompt = f"Rewrite the following tweet to be more positive:\n\n{text}"
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
 # Route to analyze text
 @app.route('/analyze', methods=['POST'])
 def analyze_text():
@@ -100,10 +113,21 @@ def analyze_text():
             logger.warning("Received request with no text")
             return jsonify({"error": "No text provided"}), 400
             
-        logger.info(f"Received text for analysis: {text[:50]}...")  # Log first 50 chars
+        logger.info(f"Received text for analysis: {text[:50]}...")  
+        
+        # Get classification result
         result = classify_text(text)
+        
+        # Rephrase the tweet if it's hateful or offensive
+        if result['classification'] in ['offensive', 'hate_speech']:
+            logger.info(f"Rephrasing tweet due to classification: {result['classification']}")
+            rephrased_text = rephrase_tweet(text)
+            result['rephrased_text'] = rephrased_text
+            logger.info(f"Rephrased text: {rephrased_text}")
+        
         logger.info(f"Analysis result: {result}")
         return jsonify(result)
+    
     except Exception as e:
         logger.error(f"Error processing request: {str(e)}")
         return jsonify({"error": str(e)}), 500

@@ -6,6 +6,7 @@ const TweetChecker = () => {
   const [xLink, setXLink] = useState("");
   const [tweetContent, setTweetContent] = useState("");
   const [analysis, setAnalysis] = useState(null);
+  const [rephrasedText, setRephrasedText] = useState(null); 
   const [errorMessage, setErrorMessage] = useState("");
 
   // Extract tweet ID from X (Twitter) link
@@ -28,6 +29,7 @@ const TweetChecker = () => {
     e.preventDefault();
     setTweetContent("");
     setAnalysis(null);
+    setRephrasedText(null); 
     setErrorMessage("");
 
     try {
@@ -37,11 +39,13 @@ const TweetChecker = () => {
       const response = await axios.get(`http://localhost:5000/api/analyze-tweet/${tweetId}`);
       setTweetContent(response.data.tweet);
       setAnalysis(response.data.analysis);
+      setRephrasedText(response.data.rephrased_text || null); 
       setErrorMessage("");
     } catch (error) {
       console.error("Error analyzing tweet:", error);
       setTweetContent("");
       setAnalysis(null);
+      setRephrasedText(null); 
       setErrorMessage(
         error.response?.data?.message || "Failed to analyze the tweet"
       );
@@ -72,17 +76,24 @@ const TweetChecker = () => {
             <div className="analysis-results">
               <h3>Analysis Results:</h3>
               <p>
-              <strong>Classification:</strong> {analysis.classification}
-            </p>
+                <strong>Classification:</strong> {analysis.classification}
+              </p>
               <div className="confidence-bar">
                 <div
                   className="confidence-fill"
-                  style={{ width: `${analysis.confidence*10}%` }}
+                  style={{ width: `${analysis.confidence * 10}%` }}
                 ></div>
               </div>
               <p>
-                <strong>Confidence:</strong> {analysis.confidence*10}%
+                <strong>Confidence:</strong> {analysis.confidence * 10}%
               </p>
+            </div>
+          )}
+
+          {rephrasedText && (
+            <div className="rephrased-text">
+              <h3>Rephrased Tweet:</h3> <br />
+              <p className="rephrased-content">{rephrasedText}</p>
             </div>
           )}
         </div>

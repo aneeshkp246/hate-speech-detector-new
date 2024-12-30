@@ -43,7 +43,6 @@ app.get('/api/analyze-tweet/:id', async (req, res) => {
     const tweetId = req.params.id;
 
     try {
-        // Fetch tweet content
         const tweetData = await fetchTweet(tweetId);
 
         if (!tweetData || !tweetData.data || !tweetData.data.text) {
@@ -51,19 +50,21 @@ app.get('/api/analyze-tweet/:id', async (req, res) => {
             return res.status(404).json({ message: 'Tweet not found or text field is missing' });
         }
 
-        console.log('Tweet text:', tweetData.data.text); // Log tweet text
+        console.log('Tweet text:', tweetData.data.text);
 
         try {
-            // Send tweet text to ML service for analysis
             const mlResponse = await axios.post(ML_SERVICE_URL, {
                 text: tweetData.data.text
             });
 
-            // Combine and log response
             const response = {
                 tweet: tweetData.data.text,
                 analysis: mlResponse.data
             };
+
+            if (mlResponse.data.rephrased_text) {
+                response.rephrased_text = mlResponse.data.rephrased_text;
+            }
 
             console.log('ML Service Response:', JSON.stringify(mlResponse.data, null, 2));
             res.json(response);
@@ -75,7 +76,7 @@ app.get('/api/analyze-tweet/:id', async (req, res) => {
             res.status(500).json({ 
                 message: 'Failed to analyze tweet',
                 error: `ML Service Error: ${mlError.message}`,
-                tweet: tweetData.data.text // Still return the tweet text even if analysis fails
+                tweet: tweetData.data.text 
             });
         }
 
@@ -96,11 +97,15 @@ app.post('/api/analyze-text', async (req, res) => {
     }
 
     try {
-        // Send text to the ML model for analysis
         const mlResponse = await axios.post(ML_SERVICE_URL, { text });
 
-        // Send back the response from the ML model
-        res.json(mlResponse.data);
+        const response = mlResponse.data;
+
+        if (response.rephrased_text) {
+            response.rephrased_text = response.rephrased_text;
+        }
+
+        res.json(response);
     } catch (error) {
         console.error('ML Service Error:', error.message);
         res.status(500).json({ 

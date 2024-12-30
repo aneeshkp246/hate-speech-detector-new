@@ -18,11 +18,11 @@ function TweetCheckerInput() {
       });
 
       setResult(response.data);
-      setError(null); // Clear any previous errors
+      setError(null); 
     } catch (err) {
       console.error("Error analyzing text:", err);
       setError(err.response?.data?.message || "An error occurred while analyzing the text.");
-      setResult(null); // Clear any previous results
+      setResult(null); 
     }
   };
 
@@ -48,12 +48,19 @@ function TweetCheckerInput() {
             <div className="confidence-bar">
               <div
                 className="confidence-fill"
-                style={{ width: `${result.confidence*10}%` }}
+                style={{ width: `${result.confidence * 10}%` }}
               ></div>
             </div>
             <p>
-              <strong>Confidence:</strong> {result.confidence*10}%
+              <strong>Confidence:</strong> {result.confidence * 10}%
             </p>
+
+            {result.rephrased_text && (
+              <div className="rephrased-text"> <br />
+                <h3>Rephrased Text:</h3>
+                <p className="rephrased-content">{result.rephrased_text}</p>
+              </div>
+            )}
           </div>
         )}
         {error && <div className="tweet-error">Error: {error}</div>}
